@@ -1,0 +1,53 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Bike-Sharing Users Prediction</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="tf.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row h-100">
+            <div class="col-sm-8 col-lg-4 offset-sm-2 offset-lg-4 my-auto">
+				<div class="card">
+					<div class="card-header text-center">
+						<strong>Bike-Sharing Users Prediction</strong>
+					</div>
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label>Temperature:</label>
+								<input type="text" id="temperature" class="form-control" placeholder="Enter temperature data ...">
+							</div>
+							<div class="form-group">
+								<button type="button" class="btn btn-warning" id="predict"><strong>Predict</strong></button>
+							</div>
+							<div class="mt-4">
+								<h3>Result: <b>Users = <span id="result">0</span></b></h3>
+							</div>
+						</form>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        theta_0 = 25;
+        theta_1 = 1.25;
+
+        function hypothesis(x) {
+            h = tf.add(tf.mul(x, theta_1), theta_0);
+            return h;
+        }
+
+        document.getElementById("predict").onclick = function() {
+            x = parseInt(document.getElementById("temperature").value);
+            h = tf.round(hypothesis(x));
+            document.getElementById("result").innerHTML = h.dataSync();
+        };
+    </script>
+</body>
+</html>

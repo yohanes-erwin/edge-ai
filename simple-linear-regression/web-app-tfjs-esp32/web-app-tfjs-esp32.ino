@@ -1,3 +1,6 @@
+// Author: Erwin Ouyang, aiotedge.tech
+// Date  : 9 Jan 2020
+
 #include <SPIFFS.h>
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
@@ -40,11 +43,11 @@ void setup()
   server.on("/jquery-3.3.1.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/jquery-3.3.1.min.js");
   });
-  server.on("/popper.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/popper.min.js");
-  });
   server.on("/bootstrap.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/bootstrap.min.js");
+  });
+  server.on("/popper.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/popper.min.js");
   });
   server.on("/tf.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/tf.min.js");

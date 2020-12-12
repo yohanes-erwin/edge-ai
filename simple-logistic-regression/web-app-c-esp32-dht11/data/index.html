@@ -1,0 +1,60 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Rain Prediction</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src='a076d05399.js'></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row h-100">
+            <div class="col-sm-8 col-lg-4 offset-sm-2 offset-lg-4 my-auto">
+			
+				<div class="card">
+					<div class="card-header text-center">
+						<strong>Rain Prediction</strong>
+					</div>
+					<div class="card-body text-center">
+						<form>
+							<h1 style="font-size: 4em;"><i class="fas fa-tint"></i> <span id="humidity">0</span>%</h1>
+							<img id="result" src="predict_not_rain.png" style="width: 128px; height: 128px;">
+						</form>
+					</div>
+				</div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        setInterval(function() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var humidity = parseInt(this.responseText);
+                    document.getElementById("humidity").innerHTML = humidity;
+                }
+            };
+            xhttp.open("GET", "/humidity", true);
+            xhttp.send();
+        }, 5000);
+
+        setInterval(function() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var rain = parseInt(this.responseText);
+                    if (rain == 1)
+                        document.getElementById("result").src = "predict_rain.png";
+                    else
+                        document.getElementById("result").src = "predict_not_rain.png";
+                }
+            };
+            xhttp.open("GET", "/predict", true);
+            xhttp.send();
+        }, 5000);
+    </script>
+</body>
+</html>

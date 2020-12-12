@@ -1,3 +1,6 @@
+// Author: Erwin Ouyang, aiotedge.tech
+// Date  : 11 Jan 2020
+
 #include <SPIFFS.h>
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
@@ -6,7 +9,7 @@ const char* ssid = "Huawei-E5573";
 const char* password = "huaweie5573";
 
 AsyncWebServer server(80);
-int temperature = 0;
+int temp = 0;
 bool req_root = false;
 
 void setup()
@@ -56,7 +59,7 @@ void setup()
       AsyncWebParameter* p = request->getParam(0);
       if (p->name() == "temperature")
       {
-        temperature = p->value().toInt();
+        temp = p->value().toInt();
       }
     }
     request->send(SPIFFS, "/index.html", String(), false, processor);
@@ -76,24 +79,19 @@ String processor(const String& var)
   if (var == "RESULT")
   {
     if (req_root)
-    {
       return String(0);
-    }
     else
-    {
-      float h = hypothesis(temperature);
-      return String(round(h), 0);
-    }
+      return predictNumberofUsers(temp);
   }
   return String();
 }
 
-float hypothesis(int x)
+String predictNumberofUsers(int temp)
 {
   float theta_0 = 25;
   float theta_1 = 1.25;
-  float h = theta_0 + theta_1*x;
+  float h = theta_0 + theta_1*temp;
 
-  return h;
+  return String(round(h), 0);
 }
 
